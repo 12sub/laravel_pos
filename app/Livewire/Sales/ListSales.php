@@ -16,6 +16,7 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Builder;
 use Livewire\Component;
 use App\Models\Sale;
+use Filament\Tables\Columns\TextColumn;
 
 class ListSales extends Component implements HasActions, HasSchemas, HasTable
 {
@@ -26,9 +27,23 @@ class ListSales extends Component implements HasActions, HasSchemas, HasTable
     public function table(Table $table): Table
     {
         return $table
-            ->query(fn (): Builder => Sale::query())
+            ->query(fn (): Builder => Sale::query()->with(['customer', 'saleItems']))
             ->columns([
-                //
+                TextColumn::make('customer.name')
+                ->sortable(),
+                TextColumn::make('saleItems.item.name')
+                ->bulleted()
+                ->limitList(2)
+                ->expandableLimitedList(),
+                TextColumn::make('total')
+                ->money('NGN')
+                ->sortable(),
+                TextColumn::make('discount')
+                ->money('NGN')
+                ->sortable(),
+                TextColumn::make('paid_amount')->money('NGN'),
+                
+                TextColumn::make('paymentMethod.name'),
             ])
             ->filters([
                 //

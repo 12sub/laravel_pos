@@ -18,6 +18,7 @@ use App\Livewire\Management\CreateUser;
 use App\Livewire\Management\ListPaymentMethods;
 use App\Livewire\Management\EditPaymentMethod;
 use App\Livewire\Management\EditUser;
+use App\Livewire\POS;
 
 Route::get('/', function () {
     return view('welcome');
@@ -57,6 +58,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/edit-inventory/{record}', EditInventory::class)->name('inventory.update');
     Route::get('/manage-inventories', ListInventory::class)->name('inventories.index');
     Route::get('/create-inventory', CreateInventory::class)->name('inventory.create');
+
+    Route::get('/pos', POS::class)->name('pos');
 });
 
 require __DIR__.'/auth.php';
